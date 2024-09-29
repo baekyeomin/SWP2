@@ -1,5 +1,5 @@
 int PINLED = 7;  // GPIO 7번 핀에 LED 연결
-int period = 100;  // 초기 주기 값
+int period = 10000;  // 초기 주기 설정
 int duty = 0;  // 초기 듀티 사이클: 0
 
 // PWM 주기 설정 함수
@@ -46,6 +46,6 @@ void setup() {
 }
 
 void loop() {
-  set_period(100);  // 10ms,1ms,0.1ms 주기설정할 곳
+  set_period(10000);  // 10ms,1ms,0.1ms 주기설정
   trianglePattern();  // 삼각형 패턴 실행
 }
