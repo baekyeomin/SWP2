@@ -32,12 +32,12 @@ void trianglePattern() {
   for (int i = 0; i <= 100; i++) {  // 밝기 증가
     set_duty(i);
     pwm();
-    delay(10);  // 각 단계는 10ms 유지
+    delay(10);  
   }
   for (int i = 100; i >= 0; i--) {  // 밝기 감소
     set_duty(i);
     pwm();
-    delay(10);  // 각 단계는 10ms 유지
+    delay(10); 
   }
 }
 
