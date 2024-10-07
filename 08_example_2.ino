@@ -30,31 +30,22 @@ void loop() {
   float distance;
 
   // wait until next sampling time. // polling
-  // millis() returns the number of milliseconds since the program started.
-  //    will overflow after 50 days.
   if (millis() < (last_sampling_time + INTERVAL))
     return;
 
   distance = USS_measure(PIN_TRIG, PIN_ECHO); // read distance
 
-  if ((distance == 0.0) || (distance > _DIST_MAX)) {
-      distance = _DIST_MAX + 10.0;    // Set Higher Value
-      digitalWrite(PIN_LED, 1);       // LED OFF
-  } else if (distance < _DIST_MIN) {
-      distance = _DIST_MIN - 10.0;    // Set Lower Value
-      digitalWrite(PIN_LED, 1);       // LED OFF
-  } else {    // In desired Range
-      digitalWrite(PIN_LED, 0);       // LED ON      
-  }
+  // Adjust LED brightness based on distance
+  int led_brightness = calculateLEDBrightness(distance);
 
-  // output the distance to the serial port
+  analogWrite(PIN_LED, led_brightness); // set LED brightness
+
+  // output the distance and brightness to the serial port
   Serial.print("Min:");        Serial.print(_DIST_MIN);
-  Serial.print(",distance:");  Serial.print(distance);
-  Serial.print(",Max:");       Serial.print(_DIST_MAX);
+  Serial.print(", Distance:");  Serial.print(distance);
+  Serial.print(", Max:");       Serial.print(_DIST_MAX);
+  Serial.print(", LED Brightness:"); Serial.print(led_brightness);
   Serial.println("");
-  
-  // do something here
-  //delay(50); // Assume that it takes 50ms to do something.
   
   // update last sampling time
   last_sampling_time += INTERVAL;
@@ -68,14 +59,34 @@ float USS_measure(int TRIG, int ECHO)
   digitalWrite(TRIG, LOW);
   
   return pulseIn(ECHO, HIGH, TIMEOUT) * SCALE; // unit: mm
+}
 
-  // Pulse duration to distance conversion example (target distance = 17.3m)
-  // - pulseIn(ECHO, HIGH, timeout) returns microseconds (음파의 왕복 시간)
-  // - 편도 거리 = (pulseIn() / 1,000,000) * SND_VEL / 2 (미터 단위)
-  //   mm 단위로 하려면 * 1,000이 필요 ==>  SCALE = 0.001 * 0.5 * SND_VEL
-  //
-  // - 예, pusseIn()이 100,000 이면 (= 0.1초, 왕복 거리 34.6m)
-  //        = 100,000 micro*sec * 0.001 milli/micro * 0.5 * 346 meter/sec
-  //        = 100,000 * 0.001 * 0.5 * 346
-  //        = 17,300 mm  ==> 17.3m
+// Calculate LED brightness based on distance
+int calculateLEDBrightness(float distance) {
+  int brightness = 255;  // Default is off
+
+  // If distance is out of range, keep LED off
+  if (distance > _DIST_MAX || distance == 0.0) {
+    brightness = 255;  // LED OFF
+  } 
+  else if (distance < _DIST_MIN) {
+    brightness = 255;  // LED OFF
+  }
+  else {
+    // Map the distance to the brightness
+    if (distance <= 150) {
+      // Brightness range: 200mm (max) -> 100mm (min)
+      brightness = map(distance, 100, 200, 255, 0); // closer, brighter
+    } 
+    else if (distance <= 250) {
+      // 50% brightness range: 150mm -> 250mm
+      brightness = map(distance, 150, 250, 0, 128); // 50% brightness at these ranges
+    }
+    else {
+      // Brightness range: 200mm (max) -> 300mm (min)
+      brightness = map(distance, 250, 300, 128, 255); // farther, dimmer
+    }
+  }
+
+  return brightness;
 }
