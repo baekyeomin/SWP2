@@ -46,7 +46,7 @@ void loop()
   a_value = analogRead(PIN_IR);
   dist_raw = ((6762.0 / (a_value - 9.0)) - 4.0) * 10.0;
 
-  if (dist_raw >= _DIST_MIN && dist_raw <= _DIST_MAX) {
+  if (dist_raw < _DIST_MIN || dist_raw > _DIST_MAX) {
     digitalWrite(PIN_LED, HIGH);
   } else {
     digitalWrite(PIN_LED, LOW);
