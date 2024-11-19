@@ -25,7 +25,7 @@
 #define _BANGBANG_RANGE    500  // duty up and down for bangbang control
 
 // Target Distance
-#define _DIST_TARGET    165 // Center of the rail (unit:mm)
+#define _DIST_TARGET    175 // Center of the rail (unit:mm)
 
 // global variables
 
