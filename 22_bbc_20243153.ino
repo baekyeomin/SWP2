@@ -11,18 +11,18 @@
 #define _INTERVAL_SERIAL  20 // serial interval (unit: ms)
 
 // EMA filter configuration for the IR distance sensor
-#define _EMA_ALPHA 0.38    // EMA weight of new sample (range: 0 to 1)
+#define _EMA_ALPHA 0.7    // EMA weight of new sample (range: 0 to 1)
                           // Setting EMA to 1 effectively disables EMA filter.
 
 // Servo adjustment - Set _DUTY_MAX, _NEU, _MIN with your own numbers
-#define _DUTY_MAX 2500 // 2000
-#define _DUTY_NEU 3100/2 // 1500
-#define _DUTY_MIN 600 // 1000
+#define _DUTY_MAX 1770 // 2000
+#define _DUTY_NEU 1400 // 1500
+#define _DUTY_MIN 1040 // 1000
 
 #define _SERVO_ANGLE_DIFF  60  // Replace with |D - E| degree
-#define _SERVO_SPEED       60  // servo speed
+#define _SERVO_SPEED       50  // servo speed
 
-#define _BANGBANG_RANGE    500  // duty up and down for bangbang control
+#define _BANGBANG_RANGE    300  // duty up and down for bangbang control
 
 // Target Distance
 #define _DIST_TARGET    175 // Center of the rail (unit:mm)
