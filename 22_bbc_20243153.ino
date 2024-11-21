@@ -16,13 +16,13 @@
 
 // Servo adjustment - Set _DUTY_MAX, _NEU, _MIN with your own numbers
 #define _DUTY_MAX 1770 // 2000
-#define _DUTY_NEU 1400 // 1500
+#define _DUTY_NEU 1700 // 1500
 #define _DUTY_MIN 1040 // 1000
 
-#define _SERVO_ANGLE_DIFF  60  // Replace with |D - E| degree
+#define _SERVO_ANGLE_DIFF  50  // Replace with |D - E| degree
 #define _SERVO_SPEED       50  // servo speed
 
-#define _BANGBANG_RANGE    300  // duty up and down for bangbang control
+#define _BANGBANG_RANGE    350  // duty up and down for bangbang control
 
 // Target Distance
 #define _DIST_TARGET    175 // Center of the rail (unit:mm)
